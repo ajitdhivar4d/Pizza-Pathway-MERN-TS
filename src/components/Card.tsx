@@ -2,9 +2,6 @@ import CardItem from "./CardItem";
 import categories from "../../src/assets/data/foodCategory.json";
 import foodItems from "../../src/assets/data/foodData2.json";
 
-const img =
-  "https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-hyderabadi-biryani-01.jpg";
-
 const Card = () => {
   return (
     <div className="card-container">

@@ -5,12 +5,7 @@ const img1 =
 const img2 =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pizza_im_Pizzaofen_von_Maurizio.jpg/544px-Pizza_im_Pizzaofen_von_Maurizio.jpg";
 
-interface cartProps {
-  name: string;
-  img: string;
-}
-
-const Cart = ({}: cartProps) => {
+const Cart = () => {
   return (
     <div className="cart-container">
       <Navbar />

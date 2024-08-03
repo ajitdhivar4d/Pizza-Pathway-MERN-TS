@@ -2,10 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const submitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();

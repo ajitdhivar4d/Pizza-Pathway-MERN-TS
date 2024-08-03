@@ -4,8 +4,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { Link } from "react-router-dom";
 
+const user = false;
+
 const Navbar = () => {
-  const [user, setUser] = useState<boolean>(false);
+  // const [user, setUser] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   return (
