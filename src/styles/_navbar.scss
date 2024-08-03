@@ -1,0 +1,103 @@
+.navbar-section {
+  height: 10%;
+  background-color: #4caf7f;
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    > h1 {
+      font-size: 1.5rem;
+      width: 200px;
+      display: grid;
+      place-items: center;
+    }
+
+    .navbar {
+      margin-left: 40px;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      font-size: 1.2rem;
+      padding: 1rem;
+
+      > div {
+        > a {
+          margin-left: 1rem;
+        }
+      }
+
+      > ul {
+        display: flex;
+
+        li {
+          margin-left: 1rem;
+
+          .logout-btn {
+            background-color: white;
+            > a {
+              color: red;
+            }
+          }
+
+          > button {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background-color: rgb(68, 68, 206);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+          }
+        }
+      }
+    }
+
+    .hamburger-icon {
+      width: 2rem;
+      height: 2rem;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+
+  .menu-open-container {
+    position: fixed;
+    background-color: #f1e0e0;
+    z-index: 9;
+    border-radius: 0 10px 10px 0;
+    > ul {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 1rem;
+      padding: 1rem;
+
+      li {
+        margin-left: 1rem;
+
+        .logout-btn {
+          background-color: white;
+          > a {
+            color: red;
+          }
+        }
+
+        > button {
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          border: none;
+          cursor: pointer;
+          background-color: rgb(68, 68, 206);
+          color: #ffffff;
+          display: flex;
+          gap: 3px;
+        }
+      }
+    }
+  }
+}

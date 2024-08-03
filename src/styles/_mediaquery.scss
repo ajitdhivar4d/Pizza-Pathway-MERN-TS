@@ -1,0 +1,57 @@
+@media screen and (max-width: 768px) {
+  .navbar-section {
+    .navbar-container {
+      padding: 1rem 1rem;
+      flex-direction: row-reverse;
+      .navbar {
+        display: none;
+      }
+      .hamburger-icon {
+        display: flex;
+      }
+    }
+  }
+
+  .carousel-container {
+    height: 250px;
+
+    .input-container {
+      > input {
+        width: 250px;
+      }
+    }
+  }
+
+  .card-container {
+    margin: 1rem;
+    .card-item-container {
+      justify-content: center;
+    }
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .navbar-container {
+    padding: 0 3rem;
+    .navbar {
+      display: flex;
+    }
+    .hamburger-icon {
+      display: none;
+    }
+  }
+  .carousel-container {
+    height: 500px;
+    .input-container {
+      > input {
+        width: 560px;
+      }
+    }
+  }
+  .card-container {
+    margin: 2rem 10rem;
+    .card-item-container {
+      justify-content: start;
+    }
+  }
+}
