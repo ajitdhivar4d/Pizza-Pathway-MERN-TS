@@ -4,11 +4,15 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { Link } from "react-router-dom";
 
-const user = false;
+const user = true;
 
 const Navbar = () => {
   // const [user, setUser] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const logoutHandler = () => {
+    console.log("logged out");
+  };
 
   return (
     <section className="navbar-section">
@@ -20,19 +24,19 @@ const Navbar = () => {
         <div className="navbar">
           <div>
             <Link to="/">Home</Link>
-            {user && <Link to="/">My Order</Link>}
+            {user && <Link to="/myorder">My Order</Link>}
           </div>
           <ul>
             {user ? (
               <>
                 <li>
                   <button>
-                    <Link to="/login">My Cart</Link>
+                    <Link to="/cart">My Cart</Link>
                   </button>
                 </li>
                 <li>
-                  <button className="logout-btn">
-                    <Link to="/signup">Logout</Link>
+                  <button className="logout-btn" onClick={logoutHandler}>
+                    Logout
                   </button>
                 </li>
               </>

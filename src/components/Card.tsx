@@ -1,8 +1,15 @@
 import CardItem from "./CardItem";
 import categories from "../../src/assets/data/foodCategory.json";
 import foodItems from "../../src/assets/data/foodData2.json";
+import { useAppSelector } from "../hooks/hooks";
 
 const Card = () => {
+  const search = useAppSelector((state) => state.misc.search);
+
+  const filteredItems = foodItems.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
   return (
     <div className="card-container">
       {categories &&
@@ -13,7 +20,7 @@ const Card = () => {
             <br />
             <div className="card-item-container">
               {foodItems &&
-                foodItems
+                filteredItems
                   .filter((item) => item.CategoryName == CategoryName)
                   .map((item) => (
                     <CardItem
