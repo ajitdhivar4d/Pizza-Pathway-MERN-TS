@@ -49,7 +49,7 @@ export const cartSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; option: string; quantity: number }>,
     ) => {
-      const { name, option, quantity } = action.payload;
+      const { name, option } = action.payload;
       const item = state.items.find(
         (item) => item.name === name && item.option === option,
       );
