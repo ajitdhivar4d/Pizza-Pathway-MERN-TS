@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAppDispatch } from "../hooks/hooks";
+import { addItem } from "../redux/reducers/cart";
 
 interface cardItemProps {
   img: string;
@@ -9,16 +11,23 @@ interface cardItemProps {
 const CardItem = ({ img, name, options }: cardItemProps) => {
   const sizeOptions = Object.keys(options[0]);
 
+  const dispatch = useAppDispatch();
+
   const [qty, setQty] = useState<number>(1);
   const [size, setSize] = useState<string>(sizeOptions[0]);
-  // console.log(size);
 
   const getPrice = () => {
     return qty * Number(options[0][size]);
   };
 
   const addToCartHandler = () => {
-    console.log("dispatch action to add item to cart");
+    const newItem = {
+      name,
+      quantity: qty,
+      option: size,
+      amount: qty * Number(options[0][size]),
+    };
+    dispatch(addItem(newItem));
   };
 
   return (

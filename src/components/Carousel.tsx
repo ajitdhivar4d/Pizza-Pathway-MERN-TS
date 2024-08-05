@@ -1,17 +1,18 @@
 import { ChangeEvent } from "react";
 import { BiSearch } from "react-icons/bi";
+import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import img1 from "../assets/pizza-slide-1.jpg";
 import img2 from "../assets/pizza-slide-2.jpg";
 import img3 from "../assets/pizza-slide-3.jpg";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { setSearch } from "../redux/reducers/misc";
+import { useAppDispatch } from "../hooks/hooks";
+import { selectSearch, setSearch } from "../redux/reducers/misc";
 
 const Carousel = () => {
   const dispatch = useAppDispatch();
-  const search = useAppSelector((state) => state.misc.search);
+  const search = useSelector(selectSearch);
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.target.value));

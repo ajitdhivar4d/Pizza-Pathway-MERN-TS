@@ -1,10 +1,11 @@
-import CardItem from "./CardItem";
+import { useSelector } from "react-redux";
 import categories from "../../src/assets/data/foodCategory.json";
 import foodItems from "../../src/assets/data/foodData2.json";
-import { useAppSelector } from "../hooks/hooks";
+import CardItem from "./CardItem";
+import { selectSearch } from "../redux/reducers/misc";
 
 const Card = () => {
-  const search = useAppSelector((state) => state.misc.search);
+  const search = useSelector(selectSearch);
 
   const filteredItems = foodItems.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase()),

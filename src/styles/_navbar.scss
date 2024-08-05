@@ -9,14 +9,14 @@
     width: 100%;
 
     > h1 {
-      font-size: 1.5rem;
+      font-size: 23px;
       width: 200px;
       display: grid;
       place-items: center;
     }
 
     .navbar {
-      margin-left: 40px;
+      margin-left: 20px;
       justify-content: space-between;
       align-items: center;
       width: 100%;
@@ -26,6 +26,7 @@
       > div {
         > a {
           margin-left: 1rem;
+          font-size: 1.1rem;
         }
       }
 
@@ -45,13 +46,24 @@
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            background-color: rgb(68, 68, 206);
+            background-color: #008080;
             color: #ffffff;
             display: flex;
             align-items: center;
             gap: 3px;
           }
         }
+      }
+    }
+
+    .cart-count {
+      position: relative;
+      margin-left: 4px;
+
+      > div {
+        position: absolute;
+        top: -8px;
+        right: -5px;
       }
     }
 

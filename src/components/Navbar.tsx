@@ -2,13 +2,18 @@ import { useState } from "react";
 import { CiLogin } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { SiGnuprivacyguard } from "react-icons/si";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectItems } from "../redux/reducers/cart";
+import { IoCartSharp } from "react-icons/io5";
 
-const user = true;
+const user = false;
 
 const Navbar = () => {
   // const [user, setUser] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const cartCount = useSelector(selectItems);
 
   const logoutHandler = () => {
     console.log("logged out");
@@ -32,6 +37,10 @@ const Navbar = () => {
                 <li>
                   <button>
                     <Link to="/cart">My Cart</Link>
+                    <div className="cart-count">
+                      <IoCartSharp size={17} color=" yellow" />
+                      <div>{cartCount.length}</div>
+                    </div>
                   </button>
                 </li>
                 <li>

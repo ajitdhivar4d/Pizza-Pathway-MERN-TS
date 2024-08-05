@@ -5,7 +5,6 @@ const SignUp = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const submitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -14,7 +13,6 @@ const SignUp = () => {
     console.log("name", name);
     console.log("email", email);
     console.log("password", password);
-    console.log("confirmPassword", confirmPassword);
   };
   return (
     <div className="login-container">
@@ -42,14 +40,6 @@ const SignUp = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="input-div">
-          <label htmlFor="">Confirm Password</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
         <div className="Submit-div">

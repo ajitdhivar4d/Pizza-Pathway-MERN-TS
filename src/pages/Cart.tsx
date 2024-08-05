@@ -1,9 +1,40 @@
+import { GoNoEntry, GoPlusCircle } from "react-icons/go";
+import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
+import { useAppDispatch } from "../hooks/hooks";
+import {
+  removeItem,
+  selectItems,
+  updateQuantityDec,
+  updateQuantityInc,
+} from "../redux/reducers/cart";
 
 const Cart = () => {
+  const items = useSelector(selectItems);
+
+  const dispatch = useAppDispatch();
+
+  console.log(items);
   const deleteHandler = () => {
     console.log("Delete");
   };
+
+  const handleQuantityInc = (
+    name: string,
+    option: string,
+    quantity: number,
+  ) => {
+    dispatch(updateQuantityInc({ name, option, quantity }));
+  };
+
+  const handleQuantityDec = (
+    name: string,
+    option: string,
+    quantity: number,
+  ) => {
+    dispatch(updateQuantityDec({ name, option, quantity }));
+  };
+
   return (
     <div className="cart-container">
       <Navbar />
@@ -20,16 +51,40 @@ const Cart = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Iphone</td>
-              <td>2</td>
-              <td>pro modal</td>
-              <td>45000</td>
-              <td>
-                <button onClick={deleteHandler}>Delete</button>
-              </td>
-            </tr>
+            {items &&
+              items.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td>
+                    <button
+                      className="quantity-toggle"
+                      onClick={() =>
+                        handleQuantityInc(item.name, item.option, item.quantity)
+                      }
+                    >
+                      <GoPlusCircle className="quantity-toggle-icon" />
+                    </button>
+
+                    {item.quantity}
+                    <button
+                      className="quantity-toggle"
+                      onClick={() =>
+                        handleQuantityDec(item.name, item.option, item.quantity)
+                      }
+                    >
+                      <GoNoEntry className="quantity-toggle-icon" />
+                    </button>
+                  </td>
+                  <td>{item.option}</td>
+                  <td>{item.amount}</td>
+                  <td>
+                    <button onClick={() => dispatch(removeItem(item.name))}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
