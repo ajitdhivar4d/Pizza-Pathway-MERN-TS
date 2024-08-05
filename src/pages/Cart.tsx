@@ -14,11 +14,6 @@ const Cart = () => {
 
   const dispatch = useAppDispatch();
 
-  console.log(items);
-  const deleteHandler = () => {
-    console.log("Delete");
-  };
-
   const handleQuantityInc = (
     name: string,
     option: string,
