@@ -1,21 +1,57 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import {
+  ErrorResponse,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { useAppDispatch } from "../hooks/hooks";
+import { useSelector } from "react-redux";
+import { selectUserInfo, setCredentials } from "../redux/reducers/auth";
+import { useLoginMutation } from "../redux/api/userApiSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const submitHandler = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-    console.log("Submit Handler");
-    console.log("email", email);
-    console.log("password", password);
+  const [login] = useLoginMutation();
+  const userInfo = useSelector(selectUserInfo);
+
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
+
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+      toast.success("Logged in successfully");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        const errorResponse = error as ErrorResponse;
+        const errorMessage = errorResponse.data?.message || "Login failed";
+        toast.error(errorMessage);
+      }
+    }
   };
   return (
     <div className="login-container">
-      <form action="">
-        <h2>Sign Up</h2>
+      <form onSubmit={submitHandler}>
+        <h2>Login</h2>
         <div className="input-div">
           <label htmlFor="email">Email</label>
           <input
@@ -33,11 +69,9 @@ const Login = () => {
           />
         </div>
         <div className="Submit-div">
-          <button type="submit" onClick={submitHandler}>
-            Submit
-          </button>
+          <button type="submit">Submit</button>
           <p>
-            Already a user? <Link to="/login">Login</Link>
+            New User? <Link to="/signup">Sign up</Link>
           </p>
         </div>
       </form>

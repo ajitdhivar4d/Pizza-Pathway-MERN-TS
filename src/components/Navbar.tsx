@@ -1,22 +1,26 @@
 import { useState } from "react";
 import { CiLogin } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { IoCartSharp } from "react-icons/io5";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout, selectUserInfo } from "../redux/reducers/auth";
 import { selectItems } from "../redux/reducers/cart";
-import { IoCartSharp } from "react-icons/io5";
-
-const user = false;
+import { useAppDispatch } from "../hooks/hooks";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  // const [user, setUser] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
+
   const cartCount = useSelector(selectItems);
+  const userInfo = useSelector(selectUserInfo);
 
   const logoutHandler = () => {
-    console.log("logged out");
+    dispatch(logout());
+    toast.error(" logged out");
   };
 
   return (
@@ -29,10 +33,10 @@ const Navbar = () => {
         <div className="navbar">
           <div>
             <Link to="/">Home</Link>
-            {user && <Link to="/myorder">My Order</Link>}
+            {userInfo && <Link to="/myorder">My Order</Link>}
           </div>
           <ul>
-            {user ? (
+            {userInfo ? (
               <>
                 <li>
                   <button>
@@ -78,7 +82,7 @@ const Navbar = () => {
       {menuOpen && (
         <div className="menu-open-container">
           <ul>
-            {user ? (
+            {userInfo ? (
               <>
                 <li>
                   <button>
@@ -86,7 +90,7 @@ const Navbar = () => {
                   </button>
                 </li>
                 <li>
-                  <button className="logout-btn">
+                  <button className="logout-btn" onClick={logoutHandler}>
                     <Link to="/signup">Logout</Link>
                   </button>
                 </li>

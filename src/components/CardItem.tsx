@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useAppDispatch } from "../hooks/hooks";
 import { addItem } from "../redux/reducers/cart";
+import { Option } from "../types/type";
 
 interface cardItemProps {
   img: string;
   name: string;
-  options: { [key: string]: number | string }[];
+  options: Option[];
 }
 
 const CardItem = ({ img, name, options }: cardItemProps) => {

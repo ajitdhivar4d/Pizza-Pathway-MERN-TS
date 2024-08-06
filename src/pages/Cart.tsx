@@ -8,9 +8,14 @@ import {
   updateQuantityDec,
   updateQuantityInc,
 } from "../redux/reducers/cart";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
+
   const items = useSelector(selectItems);
+
+  if (items.length < 1) navigate("/");
 
   const dispatch = useAppDispatch();
 
@@ -74,7 +79,10 @@ const Cart = () => {
                   <td>{item.option}</td>
                   <td>{item.amount}</td>
                   <td>
-                    <button onClick={() => dispatch(removeItem(item.name))}>
+                    <button
+                      onClick={() => dispatch(removeItem(item.name))}
+                      style={{ cursor: "pointer" }}
+                    >
                       Delete
                     </button>
                   </td>
