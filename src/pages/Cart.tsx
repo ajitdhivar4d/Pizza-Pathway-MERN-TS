@@ -13,8 +13,6 @@ import {
   updateQuantityDec,
   updateQuantityInc,
 } from "../redux/reducers/cart";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { SerializedError } from "@reduxjs/toolkit";
 
 export interface CartItem {
   name: string;
@@ -58,7 +56,7 @@ const Cart = () => {
 
   const items = useSelector(selectItems) as CartItem[];
 
-  const [addOrder, { isLoading, isError, error }] = useAddOrderMutation();
+  const [addOrder, { isLoading }] = useAddOrderMutation();
 
   useEffect(() => {
     if (items.length < 1) navigate("/");
@@ -98,34 +96,12 @@ const Cart = () => {
       await addOrder({ date, orderData }).unwrap();
       toast.success("Order placed successfully!");
       navigate("/");
-    } catch (err) {
-      if (isFetchBaseQueryError(err)) {
-        toast.error(
-          `Failed to place order. ${
-            err.data && typeof err.data.message === "string"
-              ? err.data.message
-              : "Please try again."
-          }`,
-        );
-      } else if (isSerializedError(err)) {
-        toast.error(
-          `Failed to place order. ${err.message || "Please try again."}`,
-        );
-      } else {
-        toast.error("Failed to place order. Please try again.");
-      }
+    } catch (err: any) {
+      toast.error(err);
     }
 
     localStorage.removeItem("cartItems");
     dispatch(clearItemState());
-  };
-
-  const isFetchBaseQueryError = (error: any): error is FetchBaseQueryError => {
-    return error && typeof error.status === "number";
-  };
-
-  const isSerializedError = (error: any): error is SerializedError => {
-    return error && typeof error.message === "string";
   };
 
   return (
@@ -205,18 +181,6 @@ const Cart = () => {
           >
             {isLoading ? "Placing Order..." : "Place Order"}
           </button>
-          {isError && (
-            <p>
-              Error placing order:
-              {isFetchBaseQueryError(error)
-                ? error.data && typeof error.data.message === "string"
-                  ? error.data.message
-                  : "Unknown error"
-                : isSerializedError(error)
-                ? error.message || "Unknown error"
-                : "Unknown error"}
-            </p>
-          )}
         </div>
       )}
     </div>
