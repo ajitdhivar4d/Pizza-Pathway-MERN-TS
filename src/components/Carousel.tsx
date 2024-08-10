@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { BiSearch } from "react-icons/bi";
 import { useSelector } from "react-redux";
-import Slider from "react-slick";
+import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import img1 from "../assets/pizza-slide-1.jpg";
@@ -18,7 +18,7 @@ const Carousel = () => {
     dispatch(setSearch(e.target.value));
   };
 
-  var settings = {
+  var settings: Settings = {
     dots: true,
     infinite: true,
     speed: 5000,

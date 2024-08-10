@@ -1,34 +1,60 @@
 import { useState } from "react";
 import { useAppDispatch } from "../hooks/hooks";
 import { addItem } from "../redux/reducers/cart";
-import { Option } from "../types/type";
+import { toast } from "react-toastify";
 
-interface cardItemProps {
+export interface Option {
+  type: string;
+  price: number;
+}
+
+export interface CardItemProps {
   img: string;
   name: string;
   options: Option[];
+  categoryName: string;
+  description: string;
 }
 
-const CardItem = ({ img, name, options }: cardItemProps) => {
-  const sizeOptions = Object.keys(options[0]);
-
+const CardItem = ({
+  img,
+  name,
+  options,
+  categoryName,
+  description,
+}: CardItemProps) => {
   const dispatch = useAppDispatch();
 
   const [qty, setQty] = useState<number>(1);
-  const [size, setSize] = useState<string>(sizeOptions[0]);
+  const [selectedSize, setSelectedSize] = useState<string>(options[0].type);
 
   const getPrice = () => {
-    return qty * Number(options[0][size]);
+    return (
+      qty *
+      Number(options.find((option) => option.type === selectedSize)?.price)
+    );
   };
 
   const addToCartHandler = () => {
+    const selectedOption = options.find(
+      (option) => option.type === selectedSize,
+    );
+
+    if (!selectedOption) {
+      console.error("Selected option not found");
+      return;
+    }
     const newItem = {
+      categoryName,
       name,
+      img,
+      option: selectedOption,
       quantity: qty,
-      option: size,
-      amount: qty * Number(options[0][size]),
+      description,
+      amount: getPrice(),
     };
     dispatch(addItem(newItem));
+    toast.success("Item added successfully");
   };
 
   return (
@@ -45,12 +71,12 @@ const CardItem = ({ img, name, options }: cardItemProps) => {
         </select>
 
         <select
-          value={size}
-          onChange={(e) => setSize(e.target.value.toString())}
+          value={selectedSize}
+          onChange={(e) => setSelectedSize(e.target.value)}
         >
-          {sizeOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
+          {options.map((option, index) => (
+            <option key={index} value={option.type}>
+              {option.type}
             </option>
           ))}
         </select>

@@ -1,14 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { CiLogin } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCartSharp } from "react-icons/io5";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../hooks/hooks";
 import { logout, selectUserInfo } from "../redux/reducers/auth";
 import { selectItems } from "../redux/reducers/cart";
-import { useAppDispatch } from "../hooks/hooks";
-import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
           <ul>
             {userInfo ? (
-              <>
+              <React.Fragment>
                 <li>
                   <button>
                     <Link to="/cart">My Cart</Link>
@@ -52,9 +52,9 @@ const Navbar = () => {
                     Logout
                   </button>
                 </li>
-              </>
+              </React.Fragment>
             ) : (
-              <>
+              <React.Fragment>
                 <li>
                   <button>
                     <Link to="/login">Login</Link>
@@ -67,7 +67,7 @@ const Navbar = () => {
                     <SiGnuprivacyguard />
                   </button>
                 </li>
-              </>
+              </React.Fragment>
             )}
           </ul>
         </div>
@@ -83,7 +83,7 @@ const Navbar = () => {
         <div className="menu-open-container">
           <ul>
             {userInfo ? (
-              <>
+              <React.Fragment>
                 <li>
                   <button>
                     <Link to="/login">My Cart</Link>
@@ -94,9 +94,9 @@ const Navbar = () => {
                     <Link to="/signup">Logout</Link>
                   </button>
                 </li>
-              </>
+              </React.Fragment>
             ) : (
-              <>
+              <React.Fragment>
                 <li>
                   <button>
                     <Link to="/login">Login</Link>
@@ -109,7 +109,7 @@ const Navbar = () => {
                     <SiGnuprivacyguard />
                   </button>
                 </li>
-              </>
+              </React.Fragment>
             )}
           </ul>
         </div>

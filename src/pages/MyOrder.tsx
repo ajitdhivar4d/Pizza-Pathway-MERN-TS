@@ -1,47 +1,57 @@
+import { Key } from "react";
 import Navbar from "../components/Navbar";
-
-const img1 =
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwPfCnG51iZgO-2KtE8Psyn2W2g0wTzgWJxA&s";
-const img2 =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pizza_im_Pizzaofen_von_Maurizio.jpg/544px-Pizza_im_Pizzaofen_von_Maurizio.jpg";
+import { useGetAllOrderQuery } from "../redux/api/orderApiSlice";
 
 const MyOrder = () => {
+  const { data, error, isLoading } = useGetAllOrderQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error...</div>;
+
+  const orders = data?.orderData?.orderData || [];
+
+  const dateStrings = orders.map(
+    (order: { orderDate: any }) => order.orderDate,
+  );
+
   return (
     <div className="myOrder-container">
       <Navbar />
-
-      <div className="myOrder">
-        <p>Date - 26 march 2023</p>
-        <hr />
-        <section>
-          <div className="myOrder-item">
-            <img src={img1} alt="image" />
-            <h3>Pizza </h3>
-            <span>$250</span>
+      {dateStrings.map((date: string | any[], i: Key | null | undefined) => (
+        <div key={i}>
+          <div className="myOrder">
+            <p>{date.slice(0, 15)}</p>
+            <hr />
+            {orders
+              .filter(
+                (order: { orderDate: string | any[] }) =>
+                  order.orderDate === date,
+              )
+              .map((order: { items: any[] }, i: Key | null | undefined) => (
+                <div key={i} className="myorder-dateitems">
+                  {order.items.map((item, i) => {
+                    return (
+                      <div key={i}>
+                        <section>
+                          <div className="myOrder-item">
+                            <img
+                              src={item.img}
+                              alt={item.name}
+                              style={{ width: "100px", height: "100px" }}
+                            />
+                            <h3>{item.name} </h3>
+                            <span>${item.option.price}</span>
+                          </div>
+                        </section>
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
           </div>
-          <div className="myOrder-item">
-            <img src={img2} alt="image" />
-            <h3>Pizza </h3>
-            <span>$250</span>
-          </div>
-        </section>
-      </div>
-      <div className="myOrder">
-        <p>Date - 26 march 2023</p>
-        <hr />
-        <section>
-          <div className="myOrder-item">
-            <img src={img1} alt="image" />
-            <h3>Pizza </h3>
-            <span>$250</span>
-          </div>
-          <div className="myOrder-item">
-            <img src={img2} alt="image" />
-            <h3>Pizza </h3>
-            <span>$250</span>
-          </div>
-        </section>
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

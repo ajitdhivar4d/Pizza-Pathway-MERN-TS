@@ -1,4 +1,16 @@
 .cart-container {
+  .cart-empty {
+    margin: 20vh 25vw;
+    width: 200px;
+
+    > span {
+      font-size: 20px;
+      color: #000000;
+      text-align: center;
+      min-width: 50px;
+    }
+  }
+
   .table-container {
     padding: 20px;
     overflow-x: scroll;

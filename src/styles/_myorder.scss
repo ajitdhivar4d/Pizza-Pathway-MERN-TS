@@ -2,6 +2,13 @@
   .myOrder {
     margin: 20px 40px;
 
+    .myorder-dateitems {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
     > section {
       display: flex;
       flex-direction: row;

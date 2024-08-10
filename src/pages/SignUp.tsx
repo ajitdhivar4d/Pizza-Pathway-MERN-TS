@@ -1,15 +1,29 @@
 import { FormEvent, useEffect, useState } from "react";
+import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import {
-  ErrorResponse,
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../hooks/hooks";
 import { useRegisterMutation } from "../redux/api/userApiSlice";
 import { selectUserInfo, setCredentials } from "../redux/reducers/auth";
+export interface UserProfile {
+  _id: string;
+  name: string;
+  email: string;
+}
+
+export interface UserApiResponse {
+  success: boolean;
+  user?: UserProfile;
+  message: string;
+}
+
+interface ErrorResponse {
+  status: number;
+  data?: {
+    message?: string;
+  };
+}
 
 const SignUp = () => {
   const [name, setName] = useState<string>("");
@@ -19,7 +33,7 @@ const SignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [register] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const userInfo = useSelector(selectUserInfo);
 
   const { search } = useLocation();
@@ -36,24 +50,42 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const res = await register({ name, email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
+      const res: UserApiResponse = await register({
+        name,
+        email,
+        password,
+      }).unwrap();
+      if (res.user) {
+        dispatch(setCredentials(res.user));
+      }
       navigate(redirect);
-      toast.success("User successfully registered");
-    } catch (error) {
-      if (error instanceof Error) {
+      toast.success(res.message);
+    } catch (error: unknown) {
+      if (isErrorResponse(error)) {
+        const errorMessage = error.data?.message || "Registration failed";
+        toast.error(errorMessage);
+      } else if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        const errorResponse = error as ErrorResponse;
-        const errorMessage =
-          errorResponse.data?.message || "Registration failed";
-        toast.error(errorMessage);
+        toast.error("An unexpected error occurred");
       }
     }
   };
 
+  function isErrorResponse(error: unknown): error is ErrorResponse {
+    return (
+      typeof error === "object" &&
+      error !== null &&
+      "status" in error &&
+      typeof (error as ErrorResponse).status === "number"
+    );
+  }
+
   return (
     <div className="login-container">
+      <Link to="/" className="go-home-arrow" title="Go Home">
+        <FaLongArrowAltLeft />
+      </Link>
       <form onSubmit={submitHandler}>
         <h2>Sign Up</h2>
         <div className="input-div">
@@ -84,7 +116,9 @@ const SignUp = () => {
           />
         </div>
         <div className="Submit-div">
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Submitting..." : "Submit"}
+          </button>
           <p>
             Already a user? <Link to="/login">Login</Link>
           </p>

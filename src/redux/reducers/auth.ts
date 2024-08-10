@@ -1,27 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-export interface UserInfo {
+export interface UserProfile {
+  _id: string;
   name: string;
   email: string;
-  password: string;
+}
+export interface AuthState {
+  userInfo: UserProfile | null;
 }
 
-export interface AuthState {
-  userInfo: UserInfo | null;
-}
+const storedUserInfo = localStorage.getItem("userInfo");
+
+const userInfo: UserProfile | null = storedUserInfo
+  ? (JSON.parse(storedUserInfo) as UserProfile)
+  : null;
 
 const initialState: AuthState = {
-  userInfo: localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo") || "{}")
-    : null,
+  userInfo,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
+    setCredentials: (state, action: PayloadAction<UserProfile>) => {
       state.userInfo = action.payload;
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
