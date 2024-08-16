@@ -93,9 +93,9 @@ const Cart = () => {
 
       console.log(orderData);
 
-      const date = new Date().toISOString();
-      console.log(date);
-      await addOrder({ orderData, date }).unwrap();
+      const orderDate = new Date().toISOString();
+      console.log(orderDate);
+      await addOrder({ orderData, orderDate }).unwrap();
       toast.success("Order placed successfully!");
       navigate("/");
     } catch (err: any) {

@@ -15,7 +15,7 @@ export interface Items {
 }
 
 export interface OrderApiRequest {
-  date: string;
+  orderDate: string;
   orderData: Items[];
 }
 interface AddOrderApiResponse {
