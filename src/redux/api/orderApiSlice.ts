@@ -11,18 +11,23 @@ export interface Items {
   img: string;
   option: Option;
   description: string;
-  amount: number;
   quantity: number;
 }
 
 export interface OrderApiRequest {
-  date: Date;
+  date: string;
   orderData: Items[];
+}
+
+//
+interface OrderApiResponse {
+  success: boolean;
+  message: string;
 }
 
 const orderApiSlice = api.injectEndpoints({
   endpoints: (build) => ({
-    addOrder: build.mutation<void, OrderApiRequest>({
+    addOrder: build.mutation<OrderApiResponse, OrderApiRequest>({
       query: (data) => ({
         url: "order/addorder",
         method: "POST",
@@ -30,8 +35,7 @@ const orderApiSlice = api.injectEndpoints({
       }),
     }),
     getAllOrder: build.query<any, void>({
-      query: () => "order/myOrderData",
-      providesTags: ["Order"],
+      query: () => "order/myorderdata",
     }),
   }),
 });

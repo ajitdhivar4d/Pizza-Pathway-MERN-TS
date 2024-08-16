@@ -30,17 +30,15 @@ export interface Option {
 }
 
 export interface Items {
-  name: string;
   categoryName: string;
+  name: string;
   img: string;
   option: Option;
-  quantity: number;
   description: string;
-  amount: number;
+  quantity: number;
 }
 
 export interface OrderApiRequest {
-  email: string;
   date: Date;
   orderData: Items[];
 }
@@ -55,6 +53,8 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const items = useSelector(selectItems) as CartItem[];
+
+  console.log(items);
 
   const [addOrder, { isLoading }] = useAddOrderMutation();
 
@@ -89,11 +89,13 @@ const Cart = () => {
         option: item.option,
         quantity: item.quantity,
         description: item.description,
-        amount: item.amount,
       }));
 
-      const date: Date = new Date();
-      await addOrder({ date, orderData }).unwrap();
+      console.log(orderData);
+
+      const date = new Date().toISOString();
+      console.log(date);
+      await addOrder({ orderData, date }).unwrap();
       toast.success("Order placed successfully!");
       navigate("/");
     } catch (err: any) {
