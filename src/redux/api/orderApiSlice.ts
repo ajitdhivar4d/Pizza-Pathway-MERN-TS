@@ -18,23 +18,37 @@ export interface OrderApiRequest {
   date: string;
   orderData: Items[];
 }
-
-//
-interface OrderApiResponse {
+interface AddOrderApiResponse {
   success: boolean;
   message: string;
 }
 
+//
+interface Order {
+  orderDate: string;
+  items: Items[];
+}
+
+interface OrderData {
+  email: string;
+  orderData: Order[];
+}
+
+interface GetAllOrderApiResponse {
+  success: boolean;
+  orderData: OrderData;
+}
+
 const orderApiSlice = api.injectEndpoints({
   endpoints: (build) => ({
-    addOrder: build.mutation<OrderApiResponse, OrderApiRequest>({
+    addOrder: build.mutation<AddOrderApiResponse, OrderApiRequest>({
       query: (data) => ({
         url: "order/addorder",
         method: "POST",
         body: data,
       }),
     }),
-    getAllOrder: build.query<any, void>({
+    getAllOrder: build.query<GetAllOrderApiResponse, void>({
       query: () => "order/myorderdata",
     }),
   }),

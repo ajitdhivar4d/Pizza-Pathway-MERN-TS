@@ -5,7 +5,7 @@ import { useGetAllOrderQuery } from "../redux/api/orderApiSlice";
 const MyOrder = () => {
   const { data, error, isLoading } = useGetAllOrderQuery();
 
-  console.log(error);
+  console.log(data);
 
   if (isLoading) return <div>Loading...</div>;
 
