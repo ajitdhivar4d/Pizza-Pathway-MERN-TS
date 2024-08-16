@@ -86,12 +86,17 @@ const Navbar = () => {
               <React.Fragment>
                 <li>
                   <button>
-                    <Link to="/login">My Cart</Link>
+                    <Link to="/cart">My Cart</Link>
+                  </button>
+                </li>
+                <li>
+                  <button>
+                    <Link to="/myorder">My Order</Link>
                   </button>
                 </li>
                 <li>
                   <button className="logout-btn" onClick={logoutHandler}>
-                    <Link to="/signup">Logout</Link>
+                    <Link to="/login">Logout</Link>
                   </button>
                 </li>
               </React.Fragment>
